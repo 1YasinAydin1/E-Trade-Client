@@ -1,0 +1,12 @@
+﻿@using MVCexample.Models
+@model List<category>
+<div class="list-group">
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <a href="#" class="list-group-item list-group-item-action" id="@Model[i].Name">@Model[i].Name
+            <div class="list-group">asf</div>
+        </a>
+    }
+
+</div>

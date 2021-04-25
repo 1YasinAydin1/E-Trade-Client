@@ -1,0 +1,299 @@
+﻿@using MVCexample.Helper;
+@using MVCexample.Models; @model Product
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_HomeLAYOUT.cshtml";
+    var pListSimilar = (PagedData<Product>)ViewBag.pListSimilar;
+    var comments = (List<Comment>)ViewBag.comments;
+}
+@section styles {<link href="~/Desing/css/jquery.exzoom.css" rel="stylesheet" />}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 p-4">
+            <div class="row mx-5 d-flex align-items-center">
+                <h1 class="fo"><cite>@ViewBag.categoryName</cite></h1>&nbsp;&nbsp;<h4>/</h4>&nbsp;&nbsp;
+                <h1 class="fo"><cite>@ViewBag.cLowerTitleName</cite></h1>&nbsp;&nbsp;<h4>/</h4>&nbsp;&nbsp;
+                <h1 class="fo"><cite>@ViewBag.cLowerame</cite></h1>&nbsp;&nbsp;<h4>/</h4>&nbsp;&nbsp;<h5><cite>@Model.Model</cite></h5>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="exzoom" id="exzoom">
+                <!-- Images -->
+                <div class="exzoom_img_box bg-white">
+                    <ul class='exzoom_img_ul'>
+                        @foreach (var item in Model.pDetails)
+                        {
+                            <li><img src="~/Desing/img/@item.url" /></li>
+                        }
+                    </ul>
+                </div>
+                <div class="exzoom_nav"></div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row product-info">
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row mt-4 px-4 d-flex align-items-center">
+                                <h3>@Model.Brand</h3>&nbsp;&nbsp;
+                                <h1 style="font-size:1.3em" class="fo">@Model.Model</h1>&nbsp;&nbsp;
+                                <h1 style="font-size:1.3em" class="fo">@Model.memory GB</h1>&nbsp;&nbsp;
+                                <h1 style="font-size:1.3em" class="fo">@Model.RAM GB RAM</h1>&nbsp;&nbsp;
+                                <h1 style="font-size:1.3em" class="fo">@Model.screenSize Inc</h1>&nbsp;&nbsp;
+                                <h1 style="font-size:1.3em" class="fo">@ViewBag.cLowerame</h1>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr />
+                            @if (Model.Outlet == true)
+                            {
+                                <div class="pl-4 row d-flex align-items-center">
+                                    <span>&nbsp;&nbsp;&nbsp;</span>
+                                    <h1 style="font-size:1.3em" class="fo pt-2"><del>@Model.Price</del>₺</h1>
+                                    <span>&nbsp;&nbsp;&nbsp;</span>
+                                    <div style="height:40px;width:1px;background-color:#ddd">&nbsp;</div>
+                                    <span>&nbsp;&nbsp;&nbsp;</span>
+                                    <h1 style="font-size:3em;" class="pt-2">@Model.OutletPrice₺</h1>
+                                    @{
+                                        double outletRate = 100 - Math.Ceiling((double)Model.OutletPrice * 100 / Model.Price);
+                                        <div class="product-outlet ">
+                                            <span class="rotateOutletText" style="font-size:1.2em">%@outletRate İndirim</span>
+                                        </div>
+                                    }
+                                </div>
+                                <div id="basketAJAX">
+                                    @if (ViewBag.isBasket != null)
+                                    {
+                                        <a name="@Model.ID" class="text-white btn btn-primary p-3 mb-4 mt-5 col-12">
+                                            <span> Sepete Eklendi</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a id="AddBasket" name="@Model.ID" class="text-white btn btn-success p-3 mb-4 mt-5 col-12">
+                                            <span> Sepete Ekle</span>
+                                        </a>
+                                    }
+                                </div>
+                                        }
+                                        else
+                                        {
+                                            <h3 class="pt-2 pl-4 d-flex align-items-center">Fiyat : &nbsp;<span style="font-size:2em;">@Model.Price₺</span></h3>
+                                            <div id="basketAJAX">
+                                                @if (ViewBag.isBasket != null)
+                                                {
+                                                    <a name="@Model.ID" class="text-white btn btn-primary p-3 mb-4 mt-5 col-12">
+                                                        <span> Sepete Eklendi</span>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a id="AddBasket" name="@Model.ID" class="text-white btn btn-success p-3 mb-4 mt-5 col-12">
+                                                        <span> Sepete Ekle</span>
+                                                    </a>
+                                                }
+                                            </div>
+                                        }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 pt-3">
+                    @if (Model.Popular == true)
+                    {
+                        <div class="product-popular"><img src="../../Desing/img/popular.png" width="100" /></div>
+                    }
+                </div>
+
+            </div>
+        </div>
+        <div class="col-12 mt-5">
+            <h1 style="font-size:2em">Benzer Ürünler</h1><hr style="background-color:#ccc" />
+        </div>
+        <div class="col-12 pt-2 product-info">
+            @Html.Partial("~/Views/Shared/_SwiperSliderPartial.cshtml", pListSimilar)
+        </div>
+        <div class="col-12 mt-5">
+            <h1 style="font-size:2em">Ürün Değerlendirmeleri</h1><hr style="background-color:#ccc" />
+        </div>
+        <div class="col-12 product-info comment">
+            <div class="row">
+                @if (comments.Count() != 0)
+                {
+
+                    <div class="col-12">
+                        <div class="row m-5 pl-5 d-flex justify-content-between ">
+                            <div class="starFive">
+                                @{
+                                    int starOrt = 0;
+                                    foreach (var item in comments)
+                                    {
+                                        starOrt+= int.Parse(item.StarCount.ToString());
+                                    }
+                                    starOrt = starOrt / comments.Count();
+                                }
+                                <h2 style="float:left">@starOrt.0</h2>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <ul id='stars' class="float-left m-0 p-0 mx-2" style="margin-top:7px!important">
+                                    @for (int i = 0; i < starOrt; i++)
+                                    {
+                                        <li class='star selected' title='Poor' data-value='1'>
+                                            <i class='fa fa-star fa-fw' style="font-size:.8em"></i>
+                                        </li>
+                                    }
+                                    @for (int i = 0; i < 5 - starOrt; i++)
+                                    {
+                                        <li class='star' title='Poor' data-value='1'>
+                                            <i class='fa fa-star fa-fw' style="font-size:.8em"></i>
+                                        </li>
+                                    }
+                                </ul>
+
+                            </div>
+                            <div class="row pr-5 align-items-center">
+                                <div class="fo">@comments.Count Değerlendirme</div>
+                            </div>
+                        </div>
+                    </div>
+                                    foreach (var item in comments)
+                                    {
+                                        <div class="comment-form mx-5 my-2 p-2 ">
+                                            <div class="p-2" style="font-weight:lighter ">
+                                                @*@item.CommentText*@
+                                                <ul id='stars' class="float-left m-0 p-0 mx-2" style="margin-top:7px!important">
+                                                    @for (int i = 0; i < item.StarCount; i++)
+                                                    {
+                                                        <li class='star selected' title='Poor' data-value='1'>
+                                                            <i class='fa fa-star fa-fw' style="font-size:.8em"></i>
+                                                        </li>
+                                                    }
+                                                    @for (int i = 0; i < 5 - item.StarCount; i++)
+                                                    {
+                                                        <li class='star' title='Poor' data-value='1'>
+                                                            <i class='fa fa-star fa-fw' style="font-size:.8em"></i>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                                <div class="text-left p-2" style="color:#322f2f">@item.CommentText</div>
+                                            </div>
+                                        </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="p-3 w-100">
+                                            <h3 class="mx-3" style="color:#5e5e5e">Yorum yok</h3>
+                                        </div>
+                                    }
+
+            </div>
+        </div>
+        <div class="col-12 mt-5">
+            <h1 style="font-size:2em">Teknik Özellikler</h1><hr style="background-color:#ccc" />
+        </div>
+        <!-- Teknik Özellikler -->
+        <div class="col-12 technical-row row ml-1 p-5 d-flex justify-content-center" style="background-color:#f9f9f9">
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Arka Kamera Sayısı : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.backCameraCount</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Arka Kamera Flaş : </h5>
+                <h5 style="float:left;margin-right:20px;">@((Model.backCameraFlas == true) ? "Var" : "Yok")</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Arka Kamera Çözünürlük : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.backCameraResulation MP</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Batarya : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.battery mAh</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Bluetooth : </h5>
+                <h5 style="float:left;margin-right:20px;">@((Model.Bluetooth == true) ? "Var" : "Yok")</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Renk : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.color</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Bağlantı Hızı : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.connectionSpeed<span>G</span></h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">CPU : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.CPU GHz</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Çift Hat : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.doubleLine</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Dahili Hafıza : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.memory GB</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">İşlemci : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.proccesorBrand</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">RAM : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.RAM GB</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Ekran Boyutu : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.screenSize Inc</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Ekran Tipi : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.screenType</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Ön Kamera Sayısı : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.selfieCameraCount</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Ön Kamera Flaş : </h5>
+                <h5 style="float:left;margin-right:20px;">@((Model.selfieCameraFlas == true) ? "Var" : "Yok")</h5>
+            </div>
+            <div class="col-7 mt-4 d-flex justify-content-between" style="color:#343434;border-bottom:1px solid #c1c0c0">
+                <h5 style="float:left;margin-right:20px;">Ekran Boyutu : </h5>
+                <h5 style="float:left;margin-right:20px;">@Model.selfieCameraResulation MP</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Desing/js/jquery.exzoom.js"></script>
+    <script>
+        $("#exzoom").exzoom({
+            "navWidth": 60,
+            "navHeight": 60,
+            "navItemNum": 5,
+            "navItemMargin": 7,
+            "navBorder": 1,
+            "autoPlay": false,
+        });
+
+        $('#AddBasket').click(function () {
+            var ID = $(this).attr('name');
+            debugger;
+            $.ajax({
+                url: '@Url.Content("~/ProductDetail/AddBasket?ID=")' + ID,
+                type: "GET",
+                datatype: 'bool',
+                success: function (data) {
+                    if (data == true) {
+                        $('#basketAJAX').html(' \
+                            <a id="AddBasket" name="'+ ID + '" class="text-white btn btn-primary p-3 mb-4 mt-5 col-12">\
+                                        <span> Sepete Eklendi</span>\
+                                    </a>');
+                    }
+                }
+            });
+        });
+
+    </script>
+}

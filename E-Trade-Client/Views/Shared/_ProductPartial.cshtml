@@ -1,0 +1,97 @@
+﻿@using MVCexample.Models
+@using MVCexample.Helper @model PagedData<Product>
+@*@using MVCexample.Models@model List<Product>*@
+
+@{
+    var priceRight = "";
+    if (ViewBag.priceRight == true)
+    {
+        priceRight = "priceRightList";
+    }
+    else { priceRight = "priceRightHome"; }
+}
+
+
+<div class="row">
+    @if (Model.Data.Count() == 0)
+    {
+        <div class="w-100 ml-4 d-flex justify-content-center" style="flex-wrap: wrap;">
+            <h2 class="w-100 text-center" style="color:#E74C3C;font-weight:700">Maalesef Ürün Bulunamadı</h2>
+            <img src="~/Desing/img/error.png" style="width:40%;height:auto" />
+        </div>
+    }
+    @foreach (var item in Model.Data)
+    {
+        <div class="col-md-4 mb-4 col-lg-3 col-sm-6 col-12 ">
+            <div class="slidingContainer">
+                <div class="slidingImageContent">
+                    <div class="Option">
+                        <div class="PopularImage">En Çok Satan</div>
+                        @if (item.Outlet == true)
+                        {
+                            double outletRate = 100 - Math.Ceiling((double)item.OutletPrice * 100 / item.Price);
+                            if (outletRate > 10)
+                            {<div class="outletImage"><span class="rotateOutletText">%@outletRate</span></div>}
+                            else
+                            {<div class="outletImage"><span class="rotateOutletTextMin">%@outletRate</span></div>}
+                            <div class="price"><span class="@priceRight">@item.OutletPrice₺</span></div>
+                        }
+                        else
+                        {
+                            <div class="price"><span class="@priceRight">@item.Price₺</span></div>
+                        }
+                    </div>
+                    <div class="d-flex align-items-center h-100 bg-white">
+                        <img src="~/Desing/img/@item.Image" class="slidingImage" />
+                    </div>
+                </div>
+                <div class="slidingText">
+                    <div class="row d-flex align-items-center justify-content-center">
+                        <h1 class="col-12">@item.Brand</h1>
+                        <h3 class="col-12">@item.Model</h3>
+                        <div style="border-bottom:1px solid #808080;" class="col-11"></div>
+                        <div class="col-12">
+                            <div class="row pt-3 d-flex justify-content-center align-items-center">
+                                <div class="col-7">
+                                    <p>Dahili Hafıza :</p>
+                                    <p>Batarya :</p>
+                                    <p>Ekran Boyutu :</p>
+                                    <p>Arka Kamera :</p>
+                                    <p>Ön Kamera :</p>
+                                    <p>Ram :</p>
+                                </div>
+                                <div class="col-5">
+                                    <p>@item.memory GB</p>
+                                    <p>@item.battery mAh</p>
+                                    <p>@item.screenSize</p>
+                                    <p>@item.backCameraResulation MP</p>
+                                    <p>@item.selfieCameraResulation MP</p>
+                                    <p>@item.RAM GB</p>
+                                </div>
+                            </div>
+                            <a target="_blank" href="~/ProductDetail/Index/@item.ID" class="btn btn-primary btn-block mt-4"><i style="font-size:.9em;" class="fas fa-search"></i> &nbsp;Detay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@if (ViewBag.Home != true)
+{
+    <div class="d-flex mt-5 justify-content-center">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            @for (int i = 1; i < Model.TotalPages + 1; i++)
+            {
+                if (i == Model.CurrentPage)
+                {
+                    <button type="button" class="btn btn-primary paged" name="@i">@Model.CurrentPage</button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-secondary paged" name="@i">@i</button>}
+            }
+        </div>
+    </div>
+
+}

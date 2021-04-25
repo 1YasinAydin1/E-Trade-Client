@@ -1,0 +1,141 @@
+﻿@using MVCexample.Models;
+@{
+    var baskets = (List<Basket>)ViewBag.baskets;
+    var basketContents = (List<BasketContent>)ViewBag.basketContents;
+    var addressList = (List<AddressTablee>)ViewBag.address;
+}
+
+@if (baskets.Count() != 0)
+{
+    foreach (var item in baskets)
+    {
+        if (item.Status == true)
+        {
+            <div class="row m-4" style="border:2px solid #f6f2f2">
+                <div class="col-12 p-4" style="background-color:#f6f2f2">
+                    <div class="d-flex px-4 justify-content-between align-items-center">
+                        <div class="text-center">
+                            <div><b style="font-size:.8em">Sipariş Tarihi</b></div>
+                            <div style="color:#343434">@item.orderDate</div>
+                        </div>
+                        <div class="text-center">
+                            <div><b style="font-size:.8em">Sipariş Özeti</b></div>
+                            <div style="color:#343434">@item.BasketContent.Count Ürün</div>
+                        </div>
+                        <div class="text-center">
+                            <div><b style="font-size:.8em">Toplam Tutar</b></div>
+                            <div style="color:#343434">@item.totalPrice ₺</div>
+                        </div>
+                        <button type="button" class="btn btn-success h-25" data-toggle="modal" data-target="#modal-@item.ID">
+                            Sipariş Detayı
+                        </button>
+                    </div>
+
+                </div>
+                <div class="col-12">
+                    @foreach (var item1 in item.BasketContent)
+                    {
+                        <div class="row d-flex px-4 align-items-center">
+                            <img src="~/Desing/img/@item1.Product.Image" width="60" />
+                            <div class="col-10 mt-2 pt-2">
+                                <a target="_blank" href="~/ProductDetail/Index/@item1.ProductID">
+                                    <h3 class="mr-5 float-left text-dark">@item1.Product.Brand</h3>
+                                    <div class="float-left mr-5">
+                                        <div class="row mt-2">
+                                            <h1 class="fo">@item1.Product.Model</h1>&nbsp;&nbsp;
+                                            <h1 class="fo">@item1.Product.memory GB</h1>&nbsp;&nbsp;
+                                            <h1 class="fo">@item1.Product.RAM GB RAM</h1>&nbsp;&nbsp;
+                                            <h1 class="fo">@item1.Product.screenSize Inc</h1>&nbsp;&nbsp;
+                                            <h1 class="fo">@ViewBag.cLowerame</h1>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal-@item.ID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white m-1">
+                            <h5 class="modal-title" id="exampleModalLabel">Sipariş Detayı</h5>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" >X</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @{ 
+                                var address = addressList.Where(i => i.ID == item.AddressID).First();
+                            }
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4>Adres</h4><hr class="m-0 p-0 my-2" />
+                                        <div class="card-body">
+                                            <div class="card-subtitle ml-3 mb-2 text-muted" id="address-card-content-@item.ID">
+                                                <h5>@address.address</h5>
+                                                <h5>@address.Parish</h5>
+                                                <h5>@address.District</h5>
+                                                <h5>@address.City</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <h4>Ürünler</h4>
+                                        <hr class="m-0 p-0 my-2" />
+                                        <table class="table table-hover table-light table-striped">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="row">Marka</th>
+                                                    <th scope="col">Model</th>
+                                                    <th scope="col">Fiyat</th>
+                                                    <th scope="col">Adet</th>
+                                                    <th scope="col">Toplam</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var b in basketContents)
+                                                {
+                                                    if (b.BasketID == item.ID)
+                                                    {
+                                                        <tr>
+                                                            <td>@b.Product.Brand</td>
+                                                            <td>@b.Product.Model</td>
+                                                            @if (b.Product.Outlet == true)
+                                                            {
+                                                                <td>@b.Product.OutletPrice</td>
+                                                                <td>@b.Count</td>
+                                                                <td>@b.Count * @b.Product.OutletPrice</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@b.Product.Price</td>
+                                                                <td>@b.Count</td>
+                                                                <td>@b.Count * @b.Product.OutletPrice</td>
+                                                            }
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <h2 class="p-2">Siparişiniz Bulunmamaktadır</h2>
+        }
+    }
+}
+else
+{
+    <h2 class="p-2">Siparişiniz Bulunmamaktadır</h2>
+}
+

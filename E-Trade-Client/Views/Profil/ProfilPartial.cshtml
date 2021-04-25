@@ -1,0 +1,67 @@
+﻿@using MVCexample.Models; @model registerTable
+@{
+    var basketContents = (List<BasketContent>)ViewBag.basketContents;
+}
+<div class="p-4 product-info row">
+    <div class="form-group pt-4 col-6">
+        <p>Ad</p>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
+            </div>
+            @Html.TextBoxFor(i => i.name, new { @class = "form-control", @placeholder = "Ad", @id = "profileName" })
+        </div>
+    </div>
+    <div class="form-group pt-4 col-6">
+        <p>Soyad</p>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-user-friends"></i></span>
+            </div>
+            @Html.TextBoxFor(i => i.lastname, new { @class = "form-control", @placeholder = "Soyad", @id = "profileLastName" })
+        </div>
+    </div>
+    <div class="form-group pt-4 col-6">
+        <p>Kullanıcı Adı</p>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-user-circle"></i></span>
+            </div>
+            @Html.TextBoxFor(i => i.username, new { @class = "form-control", @placeholder = "Kullacını Adı", @id = "profileUserName" })
+        </div>
+    </div>
+    <div class="form-group pt-4 col-6">
+        <p>Mail</p>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-envelope"></i></span>
+            </div>
+            @Html.TextBoxFor(i => i.mail, new { @class = "form-control", @placeholder = "Mail", @id = "profileMail" })
+        </div>
+    </div>
+    <div class="col-12">
+        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal">Şifre Güncelle</button>
+         <button id="profile-submit-button" class="btn btn-primary mx-3 px-5 float-right">Güncelle</button>
+    </div>
+    
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Şifrenizi Güncelleyin</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input class="form-control my-2" id="password-current" placeholder="Mevcut Şifre" type="text"/>
+                    <input class="form-control my-2" id="password-new" placeholder="Yeni Şifre" type="text"/>
+                    <input class="form-control my-2" id="password-new-repeat" placeholder="Yeni Şifreyi Tekrarlayın" type="text"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-block" id="profile-password-submit-button" data-dismiss="modal">Güncelle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

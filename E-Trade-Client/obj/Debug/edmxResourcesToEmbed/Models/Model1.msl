@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MVCexampleModelStoreContainer" CdmEntityContainer="MVCexampleEntities">
+    <EntitySetMapping Name="Basket">
+      <EntityTypeMapping TypeName="MVCexampleModel.Basket">
+        <MappingFragment StoreEntitySet="Basket">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="accountID" ColumnName="accountID" />
+          <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+          <ScalarProperty Name="totalPrice" ColumnName="totalPrice" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BasketContent">
+      <EntityTypeMapping TypeName="MVCexampleModel.BasketContent">
+        <MappingFragment StoreEntitySet="BasketContent">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="BasketID" ColumnName="BasketID" />
+          <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+          <ScalarProperty Name="CommentStatus" ColumnName="CommentStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="category">
+      <EntityTypeMapping TypeName="MVCexampleModel.category">
+        <MappingFragment StoreEntitySet="category">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="categoryLower">
+      <EntityTypeMapping TypeName="MVCexampleModel.categoryLower">
+        <MappingFragment StoreEntitySet="categoryLower">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="categoryLowerTitleID" ColumnName="categoryLowerTitleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="categoryLowerTitle">
+      <EntityTypeMapping TypeName="MVCexampleModel.categoryLowerTitle">
+        <MappingFragment StoreEntitySet="categoryLowerTitle">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Comment">
+      <EntityTypeMapping TypeName="MVCexampleModel.Comment">
+        <MappingFragment StoreEntitySet="Comment">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="StarCount" ColumnName="StarCount" />
+          <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product">
+      <EntityTypeMapping TypeName="MVCexampleModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="OutletPrice" ColumnName="OutletPrice" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="CategoryLowerTitleID" ColumnName="CategoryLowerTitleID" />
+          <ScalarProperty Name="CategoryLowerID" ColumnName="CategoryLowerID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Outlet" ColumnName="Outlet" />
+          <ScalarProperty Name="Popular" ColumnName="Popular" />
+          <ScalarProperty Name="memory" ColumnName="memory" />
+          <ScalarProperty Name="proccesorBrand" ColumnName="proccesorBrand" />
+          <ScalarProperty Name="battery" ColumnName="battery" />
+          <ScalarProperty Name="screenSize" ColumnName="screenSize" />
+          <ScalarProperty Name="screenType" ColumnName="screenType" />
+          <ScalarProperty Name="backCameraResulation" ColumnName="backCameraResulation" />
+          <ScalarProperty Name="backCameraCount" ColumnName="backCameraCount" />
+          <ScalarProperty Name="backCameraFlas" ColumnName="backCameraFlas" />
+          <ScalarProperty Name="selfieCameraResulation" ColumnName="selfieCameraResulation" />
+          <ScalarProperty Name="selfieCameraCount" ColumnName="selfieCameraCount" />
+          <ScalarProperty Name="selfieCameraFlas" ColumnName="selfieCameraFlas" />
+          <ScalarProperty Name="color" ColumnName="color" />
+          <ScalarProperty Name="RAM" ColumnName="RAM" />
+          <ScalarProperty Name="CPU" ColumnName="CPU" />
+          <ScalarProperty Name="connectionSpeed" ColumnName="connectionSpeed" />
+          <ScalarProperty Name="Bluetooth" ColumnName="Bluetooth" />
+          <ScalarProperty Name="doubleLine" ColumnName="doubleLine" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductDetail">
+      <EntityTypeMapping TypeName="MVCexampleModel.ProductDetail">
+        <MappingFragment StoreEntitySet="ProductDetail">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="url" ColumnName="url" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="registerTable">
+      <EntityTypeMapping TypeName="MVCexampleModel.registerTable">
+        <MappingFragment StoreEntitySet="registerTable">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="lastname" ColumnName="lastname" />
+          <ScalarProperty Name="mail" ColumnName="mail" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="MVCexampleModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AddressTablee">
+      <EntityTypeMapping TypeName="MVCexampleModel.AddressTablee">
+        <MappingFragment StoreEntitySet="AddressTablee">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="Parish" ColumnName="Parish" />
+          <ScalarProperty Name="District" ColumnName="District" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="accountID" ColumnName="accountID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Favorite">
+      <EntityTypeMapping TypeName="MVCexampleModel.Favorite">
+        <MappingFragment StoreEntitySet="Favorite">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

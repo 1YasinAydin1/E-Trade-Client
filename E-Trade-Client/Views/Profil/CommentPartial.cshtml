@@ -1,0 +1,136 @@
+﻿@using MVCexample.Models;
+@{
+    var basketContents = (List<BasketContent>)ViewBag.basketContents;
+}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Değerlendir</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Geçmiş Değerlendirme</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    @if (basketContents.Count() != 0)
+    {
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        @foreach (var item in basketContents)
+        {
+            if (item.CommentStatus != true)
+            {
+                <div class="card my-2">
+                    <div class="card-body">
+                        <div class="float-left mx-4"><img src="~/Desing/img/@item.Product.Image" width="70" /></div>
+                        <div class="float-left mx-3">
+                            <h5 class="card-title"><b>@item.Product.Brand</b>&nbsp;&nbsp;@item.Product.Model</h5>
+                            <div class="card-subtitle ml-3 mb-2 text-muted">
+                                <div class="row mt-2">
+                                    <h1 class="fo">@item.Product.Model</h1>&nbsp;&nbsp;
+                                    <h1 class="fo">@item.Product.memory GB</h1>&nbsp;&nbsp;
+                                    <h1 class="fo">@item.Product.RAM GB RAM</h1>&nbsp;&nbsp;
+                                    <h1 class="fo">@item.Product.screenSize Inc</h1>&nbsp;&nbsp;
+                                </div>
+                            </div>
+                            <button type="button" name="@item.ProductID" title="@item.ID" id="modelButton" class="btn btn-primary" data-toggle="modal" data-target="#modal-@item.ID">
+                                Ürünü Değerlendir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                        <div class="modal fade" id="modal-@item.ID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog  modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title" id="exampleModalLabel">Ürünü Nasıl Buldunuz?</h3>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-12 d-flex align-items-center justify-content-center">
+                                                <img src="~/Desing/img/@item.Product.Image" width="90" class="float-left" />
+                                                <div class="p-4">
+                                                    <div class='rating-stars text-center'>
+                                                        <ul id='stars'>
+                                                            <li class='star' title='Poor' data-value='1'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='Fair' data-value='2'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='Good' data-value='3'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='Excellent' data-value='4'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='WOW!!!' data-value='5'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12"><textarea rows="5" id="commentTextarea-@item.ID" class="w-100 p-2" placeholder="Ürün hakkındaki görüşünüz?"></textarea></div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-success btn-block commentButton" name="@item.ID" data-dismiss="modal">Yorum Yap</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            }
+        }
+    </div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+        @foreach (var item in basketContents)
+        {
+            if (item.CommentStatus == true)
+            {
+                <div class="card my-2">
+                    <div class="card-body">
+                        <div class="float-left mx-4"><img src="~/Desing/img/@item.Product.Image" width="70" /></div>
+                        <div class="float-left mx-3">
+                            <h5 class="card-title"><b>@item.Product.Brand</b>&nbsp;&nbsp;@item.Product.Model</h5>
+                            <div class="card-subtitle ml-3 mb-2 text-muted">
+                                <div class="row mt-2">
+                                    <h1 class="fo">@item.Product.Model</h1>&nbsp;&nbsp;
+                                    <h1 class="fo">@item.Product.memory GB</h1>&nbsp;&nbsp;
+                                    <h1 class="fo">@item.Product.RAM GB RAM</h1>&nbsp;&nbsp;
+                                    <h1 class="fo">@item.Product.screenSize Inc</h1>&nbsp;&nbsp;
+                                </div>
+                            </div>
+                            <div class='rating-stars text-center'>
+                                <ul id='stars'>
+                                    @for (int i = 0; i < item.Comment.StarCount; i++)
+                                    {
+                                        <li class='star selected' title='Poor' data-value='1'>
+                                            <i class='fa fa-star fa-fw'></i>
+                                        </li>
+                                    }
+                                    @for (int i = 0; i < 5 - item.Comment.StarCount; i++)
+                                    {
+                                        <li class='star' title='Poor' data-value='1'>
+                                            <i class='fa fa-star fa-fw'></i>
+                                        </li>
+                                    }
+                                </ul>
+                                <div class="text-left p-2">@item.Comment.CommentText</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+    }
+    else
+    {
+        <h2 class="p-4">Değerlendirelecek Ürün Bulunmamaktadır</h2>
+    }
+</div>
+

@@ -1,0 +1,915 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MVCexampleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AddressTablee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="accountID" Type="int" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="District" Type="varchar" MaxLength="50" />
+          <Property Name="Parish" Type="varchar" MaxLength="50" />
+          <Property Name="address" Type="varchar" MaxLength="250" />
+          <Property Name="Title" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Basket">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="accountID" Type="int" />
+          <Property Name="orderDate" Type="datetime" />
+          <Property Name="totalPrice" Type="int" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="AddressID" Type="int" />
+        </EntityType>
+        <EntityType Name="BasketContent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="Count" Type="int" />
+          <Property Name="BasketID" Type="int" Nullable="false" />
+          <Property Name="CommentID" Type="int" />
+          <Property Name="CommentStatus" Type="bit" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="categoryLower">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="categoryLowerTitleID" Type="int" />
+        </EntityType>
+        <EntityType Name="categoryLowerTitle">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="categoryID" Type="int" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="AccountID" Type="int" />
+          <Property Name="StarCount" Type="tinyint" />
+          <Property Name="CommentText" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Favorite">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountID" Type="int" />
+          <Property Name="ProductID" Type="int" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" />
+          <Property Name="Brand" Type="varchar" MaxLength="20" />
+          <Property Name="Model" Type="varchar" MaxLength="50" />
+          <Property Name="Stock" Type="int" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Image" Type="varchar" MaxLength="200" />
+          <Property Name="OutletPrice" Type="float" />
+          <Property Name="CategoryID" Type="int" />
+          <Property Name="CategoryLowerTitleID" Type="int" />
+          <Property Name="CategoryLowerID" Type="int" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="Outlet" Type="bit" />
+          <Property Name="Popular" Type="bit" />
+          <Property Name="memory" Type="tinyint" />
+          <Property Name="proccesorBrand" Type="varchar" MaxLength="20" />
+          <Property Name="battery" Type="int" />
+          <Property Name="screenSize" Type="tinyint" />
+          <Property Name="screenType" Type="varchar" MaxLength="20" />
+          <Property Name="backCameraResulation" Type="varchar" MaxLength="20" />
+          <Property Name="backCameraCount" Type="tinyint" />
+          <Property Name="backCameraFlas" Type="bit" />
+          <Property Name="selfieCameraResulation" Type="varchar" MaxLength="20" />
+          <Property Name="selfieCameraCount" Type="tinyint" />
+          <Property Name="selfieCameraFlas" Type="bit" />
+          <Property Name="color" Type="varchar" MaxLength="15" />
+          <Property Name="RAM" Type="tinyint" />
+          <Property Name="CPU" Type="varchar" MaxLength="20" />
+          <Property Name="connectionSpeed" Type="varchar" MaxLength="15" />
+          <Property Name="Bluetooth" Type="bit" />
+          <Property Name="doubleLine" Type="bit" />
+        </EntityType>
+        <EntityType Name="ProductDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="url" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="registerTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="lastname" Type="varchar" MaxLength="50" />
+          <Property Name="mail" Type="varchar" MaxLength="100" />
+          <Property Name="username" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_AddressTablee_registerTable">
+          <End Role="registerTable" Type="Self.registerTable" Multiplicity="0..1" />
+          <End Role="AddressTablee" Type="Self.AddressTablee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="registerTable">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddressTablee">
+              <PropertyRef Name="accountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BasketContent_Basket">
+          <End Role="Basket" Type="Self.Basket" Multiplicity="1" />
+          <End Role="BasketContent" Type="Self.BasketContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Basket">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BasketContent">
+              <PropertyRef Name="BasketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BasketContent_Comment">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="0..1" />
+          <End Role="BasketContent" Type="Self.BasketContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BasketContent">
+              <PropertyRef Name="CommentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BasketContent_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="BasketContent" Type="Self.BasketContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BasketContent">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_categoryLower_categoryLowerTitle">
+          <End Role="categoryLowerTitle" Type="Self.categoryLowerTitle" Multiplicity="0..1" />
+          <End Role="categoryLower" Type="Self.categoryLower" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoryLowerTitle">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="categoryLower">
+              <PropertyRef Name="categoryLowerTitleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_categoryLowerTitle_category">
+          <End Role="category" Type="Self.category" Multiplicity="0..1" />
+          <End Role="categoryLowerTitle" Type="Self.categoryLowerTitle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="categoryLowerTitle">
+              <PropertyRef Name="categoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_registerTable">
+          <End Role="registerTable" Type="Self.registerTable" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="registerTable">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Favorite_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Favorite" Type="Self.Favorite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Favorite">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Favorite_registerTable">
+          <End Role="registerTable" Type="Self.registerTable" Multiplicity="0..1" />
+          <End Role="Favorite" Type="Self.Favorite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="registerTable">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Favorite">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_category">
+          <End Role="category" Type="Self.category" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductDetail_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="ProductDetail" Type="Self.ProductDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductDetail">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MVCexampleModelStoreContainer">
+          <EntitySet Name="AddressTablee" EntityType="Self.AddressTablee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Basket" EntityType="Self.Basket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BasketContent" EntityType="Self.BasketContent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="categoryLower" EntityType="Self.categoryLower" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="categoryLowerTitle" EntityType="Self.categoryLowerTitle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Favorite" EntityType="Self.Favorite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductDetail" EntityType="Self.ProductDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="registerTable" EntityType="Self.registerTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AddressTablee_registerTable" Association="Self.FK_AddressTablee_registerTable">
+            <End Role="registerTable" EntitySet="registerTable" />
+            <End Role="AddressTablee" EntitySet="AddressTablee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BasketContent_Basket" Association="Self.FK_BasketContent_Basket">
+            <End Role="Basket" EntitySet="Basket" />
+            <End Role="BasketContent" EntitySet="BasketContent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BasketContent_Comment" Association="Self.FK_BasketContent_Comment">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="BasketContent" EntitySet="BasketContent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BasketContent_Product" Association="Self.FK_BasketContent_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="BasketContent" EntitySet="BasketContent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_categoryLower_categoryLowerTitle" Association="Self.FK_categoryLower_categoryLowerTitle">
+            <End Role="categoryLowerTitle" EntitySet="categoryLowerTitle" />
+            <End Role="categoryLower" EntitySet="categoryLower" />
+          </AssociationSet>
+          <AssociationSet Name="FK_categoryLowerTitle_category" Association="Self.FK_categoryLowerTitle_category">
+            <End Role="category" EntitySet="category" />
+            <End Role="categoryLowerTitle" EntitySet="categoryLowerTitle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Product" Association="Self.FK_Comment_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_registerTable" Association="Self.FK_Comment_registerTable">
+            <End Role="registerTable" EntitySet="registerTable" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favorite_Product" Association="Self.FK_Favorite_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Favorite" EntitySet="Favorite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favorite_registerTable" Association="Self.FK_Favorite_registerTable">
+            <End Role="registerTable" EntitySet="registerTable" />
+            <End Role="Favorite" EntitySet="Favorite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_category" Association="Self.FK_Product_category">
+            <End Role="category" EntitySet="category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductDetail_Product" Association="Self.FK_ProductDetail_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductDetail" EntitySet="ProductDetail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MVCexampleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Basket">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="accountID" Type="Int32" />
+          <Property Name="orderDate" Type="DateTime" Precision="3" />
+          <Property Name="totalPrice" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="AddressID" Type="Int32" />
+          <NavigationProperty Name="BasketContent" Relationship="Self.FK_BasketContent_Basket" FromRole="Basket" ToRole="BasketContent" />
+        </EntityType>
+        <EntityType Name="BasketContent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="Count" Type="Int32" />
+          <Property Name="BasketID" Type="Int32" Nullable="false" />
+          <Property Name="CommentID" Type="Int32" />
+          <Property Name="CommentStatus" Type="Boolean" />
+          <NavigationProperty Name="Basket" Relationship="Self.FK_BasketContent_Basket" FromRole="BasketContent" ToRole="Basket" />
+          <NavigationProperty Name="Comment" Relationship="Self.FK_BasketContent_Comment" FromRole="BasketContent" ToRole="Comment" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_BasketContent_Product" FromRole="BasketContent" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="categoryLowerTitle" Relationship="Self.FK_categoryLowerTitle_category" FromRole="category" ToRole="categoryLowerTitle" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_category" FromRole="category" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="categoryLower">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="categoryLowerTitleID" Type="Int32" />
+          <NavigationProperty Name="categoryLowerTitle" Relationship="Self.FK_categoryLower_categoryLowerTitle" FromRole="categoryLower" ToRole="categoryLowerTitle" />
+        </EntityType>
+        <EntityType Name="categoryLowerTitle">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="categoryID" Type="Int32" />
+          <NavigationProperty Name="category" Relationship="Self.FK_categoryLowerTitle_category" FromRole="categoryLowerTitle" ToRole="category" />
+          <NavigationProperty Name="categoryLower" Relationship="Self.FK_categoryLower_categoryLowerTitle" FromRole="categoryLowerTitle" ToRole="categoryLower" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="AccountID" Type="Int32" />
+          <Property Name="StarCount" Type="Byte" />
+          <Property Name="CommentText" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BasketContent" Relationship="Self.FK_BasketContent_Comment" FromRole="Comment" ToRole="BasketContent" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Comment_Product" FromRole="Comment" ToRole="Product" />
+          <NavigationProperty Name="registerTable" Relationship="Self.FK_Comment_registerTable" FromRole="Comment" ToRole="registerTable" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Brand" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Stock" Type="Int32" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="OutletPrice" Type="Double" />
+          <Property Name="CategoryID" Type="Int32" />
+          <Property Name="CategoryLowerTitleID" Type="Int32" />
+          <Property Name="CategoryLowerID" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="Outlet" Type="Boolean" />
+          <Property Name="Popular" Type="Boolean" />
+          <Property Name="memory" Type="Byte" />
+          <Property Name="proccesorBrand" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="battery" Type="Int32" />
+          <Property Name="screenSize" Type="Byte" />
+          <Property Name="screenType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="backCameraResulation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="backCameraCount" Type="Byte" />
+          <Property Name="backCameraFlas" Type="Boolean" />
+          <Property Name="selfieCameraResulation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="selfieCameraCount" Type="Byte" />
+          <Property Name="selfieCameraFlas" Type="Boolean" />
+          <Property Name="color" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="RAM" Type="Byte" />
+          <Property Name="CPU" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="connectionSpeed" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Bluetooth" Type="Boolean" />
+          <Property Name="doubleLine" Type="Boolean" />
+          <NavigationProperty Name="BasketContent" Relationship="Self.FK_BasketContent_Product" FromRole="Product" ToRole="BasketContent" />
+          <NavigationProperty Name="category" Relationship="Self.FK_Product_category" FromRole="Product" ToRole="category" />
+          <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_Product" FromRole="Product" ToRole="Comment" />
+          <NavigationProperty Name="ProductDetail" Relationship="Self.FK_ProductDetail_Product" FromRole="Product" ToRole="ProductDetail" />
+          <NavigationProperty Name="Favorite" Relationship="MVCexampleModel.FK_Favorite_Product" FromRole="Product" ToRole="Favorite" />
+        </EntityType>
+        <EntityType Name="ProductDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_ProductDetail_Product" FromRole="ProductDetail" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="registerTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="mail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_registerTable" FromRole="registerTable" ToRole="Comment" />
+          <NavigationProperty Name="AddressTablee" Relationship="MVCexampleModel.FK_AddressTablee_registerTable" FromRole="registerTable" ToRole="AddressTablee" />
+          <NavigationProperty Name="Favorite" Relationship="MVCexampleModel.FK_Favorite_registerTable" FromRole="registerTable" ToRole="Favorite" />
+        </EntityType>
+        <Association Name="FK_BasketContent_Basket">
+          <End Role="Basket" Type="Self.Basket" Multiplicity="1" />
+          <End Role="BasketContent" Type="Self.BasketContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Basket">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BasketContent">
+              <PropertyRef Name="BasketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BasketContent_Comment">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="0..1" />
+          <End Role="BasketContent" Type="Self.BasketContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BasketContent">
+              <PropertyRef Name="CommentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BasketContent_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="BasketContent" Type="Self.BasketContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BasketContent">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_categoryLowerTitle_category">
+          <End Role="category" Type="Self.category" Multiplicity="0..1" />
+          <End Role="categoryLowerTitle" Type="Self.categoryLowerTitle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="categoryLowerTitle">
+              <PropertyRef Name="categoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_category">
+          <End Role="category" Type="Self.category" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_categoryLower_categoryLowerTitle">
+          <End Role="categoryLowerTitle" Type="Self.categoryLowerTitle" Multiplicity="0..1" />
+          <End Role="categoryLower" Type="Self.categoryLower" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoryLowerTitle">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="categoryLower">
+              <PropertyRef Name="categoryLowerTitleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_registerTable">
+          <End Role="registerTable" Type="Self.registerTable" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="registerTable">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductDetail_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="ProductDetail" Type="Self.ProductDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductDetail">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MVCexampleEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Basket" EntityType="Self.Basket" />
+          <EntitySet Name="BasketContent" EntityType="Self.BasketContent" />
+          <EntitySet Name="category" EntityType="Self.category" />
+          <EntitySet Name="categoryLower" EntityType="Self.categoryLower" />
+          <EntitySet Name="categoryLowerTitle" EntityType="Self.categoryLowerTitle" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" />
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="ProductDetail" EntityType="Self.ProductDetail" />
+          <EntitySet Name="registerTable" EntityType="Self.registerTable" />
+          <AssociationSet Name="FK_BasketContent_Basket" Association="Self.FK_BasketContent_Basket">
+            <End Role="Basket" EntitySet="Basket" />
+            <End Role="BasketContent" EntitySet="BasketContent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BasketContent_Comment" Association="Self.FK_BasketContent_Comment">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="BasketContent" EntitySet="BasketContent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BasketContent_Product" Association="Self.FK_BasketContent_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="BasketContent" EntitySet="BasketContent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_categoryLowerTitle_category" Association="Self.FK_categoryLowerTitle_category">
+            <End Role="category" EntitySet="category" />
+            <End Role="categoryLowerTitle" EntitySet="categoryLowerTitle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_category" Association="Self.FK_Product_category">
+            <End Role="category" EntitySet="category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_categoryLower_categoryLowerTitle" Association="Self.FK_categoryLower_categoryLowerTitle">
+            <End Role="categoryLowerTitle" EntitySet="categoryLowerTitle" />
+            <End Role="categoryLower" EntitySet="categoryLower" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Product" Association="Self.FK_Comment_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_registerTable" Association="Self.FK_Comment_registerTable">
+            <End Role="registerTable" EntitySet="registerTable" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductDetail_Product" Association="Self.FK_ProductDetail_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductDetail" EntitySet="ProductDetail" />
+          </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="MVCexampleModel.sysdiagrams" />
+          <EntitySet Name="AddressTablee" EntityType="MVCexampleModel.AddressTablee" />
+          <AssociationSet Name="FK_AddressTablee_registerTable" Association="MVCexampleModel.FK_AddressTablee_registerTable">
+            <End Role="registerTable" EntitySet="registerTable" />
+            <End Role="AddressTablee" EntitySet="AddressTablee" />
+          </AssociationSet>
+          <EntitySet Name="Favorite" EntityType="MVCexampleModel.Favorite" />
+          <AssociationSet Name="FK_Favorite_Product" Association="MVCexampleModel.FK_Favorite_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Favorite" EntitySet="Favorite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favorite_registerTable" Association="MVCexampleModel.FK_Favorite_registerTable">
+            <End Role="registerTable" EntitySet="registerTable" />
+            <End Role="Favorite" EntitySet="Favorite" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="AddressTablee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="accountID" Type="Int32" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="District" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Parish" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="registerTable" Relationship="MVCexampleModel.FK_AddressTablee_registerTable" FromRole="AddressTablee" ToRole="registerTable" />
+        </EntityType>
+        <Association Name="FK_AddressTablee_registerTable">
+          <End Type="MVCexampleModel.registerTable" Role="registerTable" Multiplicity="0..1" />
+          <End Type="MVCexampleModel.AddressTablee" Role="AddressTablee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="registerTable">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AddressTablee">
+              <PropertyRef Name="accountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Favorite">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountID" Type="Int32" />
+          <Property Name="ProductID" Type="Int32" />
+          <NavigationProperty Name="Product" Relationship="MVCexampleModel.FK_Favorite_Product" FromRole="Favorite" ToRole="Product" />
+          <NavigationProperty Name="registerTable" Relationship="MVCexampleModel.FK_Favorite_registerTable" FromRole="Favorite" ToRole="registerTable" />
+        </EntityType>
+        <Association Name="FK_Favorite_Product">
+          <End Type="MVCexampleModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="MVCexampleModel.Favorite" Role="Favorite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Favorite">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Favorite_registerTable">
+          <End Type="MVCexampleModel.registerTable" Role="registerTable" Multiplicity="0..1" />
+          <End Type="MVCexampleModel.Favorite" Role="Favorite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="registerTable">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Favorite">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MVCexampleModelStoreContainer" CdmEntityContainer="MVCexampleEntities">
+          <EntitySetMapping Name="Basket">
+            <EntityTypeMapping TypeName="MVCexampleModel.Basket">
+              <MappingFragment StoreEntitySet="Basket">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="accountID" ColumnName="accountID" />
+                <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+                <ScalarProperty Name="totalPrice" ColumnName="totalPrice" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BasketContent">
+            <EntityTypeMapping TypeName="MVCexampleModel.BasketContent">
+              <MappingFragment StoreEntitySet="BasketContent">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="BasketID" ColumnName="BasketID" />
+                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+                <ScalarProperty Name="CommentStatus" ColumnName="CommentStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="category">
+            <EntityTypeMapping TypeName="MVCexampleModel.category">
+              <MappingFragment StoreEntitySet="category">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="categoryLower">
+            <EntityTypeMapping TypeName="MVCexampleModel.categoryLower">
+              <MappingFragment StoreEntitySet="categoryLower">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="categoryLowerTitleID" ColumnName="categoryLowerTitleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="categoryLowerTitle">
+            <EntityTypeMapping TypeName="MVCexampleModel.categoryLowerTitle">
+              <MappingFragment StoreEntitySet="categoryLowerTitle">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comment">
+            <EntityTypeMapping TypeName="MVCexampleModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="StarCount" ColumnName="StarCount" />
+                <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="MVCexampleModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="OutletPrice" ColumnName="OutletPrice" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="CategoryLowerTitleID" ColumnName="CategoryLowerTitleID" />
+                <ScalarProperty Name="CategoryLowerID" ColumnName="CategoryLowerID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Outlet" ColumnName="Outlet" />
+                <ScalarProperty Name="Popular" ColumnName="Popular" />
+                <ScalarProperty Name="memory" ColumnName="memory" />
+                <ScalarProperty Name="proccesorBrand" ColumnName="proccesorBrand" />
+                <ScalarProperty Name="battery" ColumnName="battery" />
+                <ScalarProperty Name="screenSize" ColumnName="screenSize" />
+                <ScalarProperty Name="screenType" ColumnName="screenType" />
+                <ScalarProperty Name="backCameraResulation" ColumnName="backCameraResulation" />
+                <ScalarProperty Name="backCameraCount" ColumnName="backCameraCount" />
+                <ScalarProperty Name="backCameraFlas" ColumnName="backCameraFlas" />
+                <ScalarProperty Name="selfieCameraResulation" ColumnName="selfieCameraResulation" />
+                <ScalarProperty Name="selfieCameraCount" ColumnName="selfieCameraCount" />
+                <ScalarProperty Name="selfieCameraFlas" ColumnName="selfieCameraFlas" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="RAM" ColumnName="RAM" />
+                <ScalarProperty Name="CPU" ColumnName="CPU" />
+                <ScalarProperty Name="connectionSpeed" ColumnName="connectionSpeed" />
+                <ScalarProperty Name="Bluetooth" ColumnName="Bluetooth" />
+                <ScalarProperty Name="doubleLine" ColumnName="doubleLine" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductDetail">
+            <EntityTypeMapping TypeName="MVCexampleModel.ProductDetail">
+              <MappingFragment StoreEntitySet="ProductDetail">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="url" ColumnName="url" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="registerTable">
+            <EntityTypeMapping TypeName="MVCexampleModel.registerTable">
+              <MappingFragment StoreEntitySet="registerTable">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MVCexampleModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AddressTablee">
+            <EntityTypeMapping TypeName="MVCexampleModel.AddressTablee">
+              <MappingFragment StoreEntitySet="AddressTablee">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="Parish" ColumnName="Parish" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="accountID" ColumnName="accountID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Favorite">
+            <EntityTypeMapping TypeName="MVCexampleModel.Favorite">
+              <MappingFragment StoreEntitySet="Favorite">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

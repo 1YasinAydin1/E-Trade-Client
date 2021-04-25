@@ -1,0 +1,162 @@
+﻿@model MVCexample.Controllers.ProductListViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_HomeLAYOUT.cshtml";
+
+    var products = Model.pList;
+
+    var memorys = Model.pList.OrderBy(i => i.ID)
+              .GroupBy(i => i.memory)
+              .Select(i => new { i = i.Key });
+    var brands = Model.cList;
+}
+<style>
+    a {
+        color: #dc5656;
+    }
+
+        a:hover {
+            text-decoration: none;
+            color: #9f3535;
+        }
+</style>
+@section scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            var html = ``;
+            $('.filter').click(function () {
+                var name = $(this).attr('name');
+                var id = $(this).attr('id');
+                debugger;
+                $.ajax({
+                    url: '@Url.Content("~/ProductList/Filter?name=")' + name + '&id=' + id,
+                    type: "GET",
+                    datatype: 'html',
+                    success: function (data) {
+                        debugger;
+                        if (data != null) {
+                            $("#produtList").html(data);
+                            $('#filterList').append('<div class="btn-group mx-2">\
+                                <p class="btn btn-danger disabled" style="cursor:default">' + name + '</p>\
+                                <p class="btn text-white filterRemove" id="' + id + '" name="' + name + '" style="background-color:#9f3535">X</p>\</div>');
+                        }
+                    }
+                });
+            });
+
+            $(document).on('click', '.filterRemove', function () {
+                var name = $(this).attr('name');
+                var id = $(this).attr('id');
+                $(this).parent().slideUp();
+                $.ajax({
+                    url: '@Url.Content("~/ProductList/FilterRemove?name=")' + name + '&id=' + id,
+                    type: "GET",
+                    datatype: 'html',
+                    success: function (data) {
+                        $("#produtList").html(data);
+                    }
+                });
+            });
+
+            GetPageData(1, 8);
+            function GetPageData(pageNum, pageSize) {
+                debugger;
+                $("#produtList").empty();
+                $("#paged").empty();
+                $.ajax({
+                    url: '@Url.Content("~/ProductList/GetPageData?pageNum=")' + pageNum + '&pageSize=' + pageSize,
+                    type: "GET",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#produtList").html(data);
+                    }
+                });
+            }
+            $(document).on('click', '.paged', function () {
+                var currentPageNum = $(this).attr('name');
+                debugger;
+                GetPageData(currentPageNum, 8);
+                $('html,body').animate({ scrollTop: 0 }, 300);
+                return false;
+            });
+
+        });
+    </script>
+}
+<div class="asfasfasf container-fluid px-4 pt-2">
+    <div class="col-12 p-4">
+        <div class="row mx-5 d-flex align-items-center">
+            <h1 class="fo"><cite>@ViewBag.cName</cite></h1>&nbsp;&nbsp;<h4>/</h4>&nbsp;&nbsp;
+            <h1 class="fo"><cite>@ViewBag.cLowerTitleName</cite></h1>&nbsp;&nbsp;<h4>/</h4>&nbsp;&nbsp;
+            <h1 class="fo text-danger"><b><cite><a href="~/ProductList/Index/@ViewBag.cLowerID">@ViewBag.cLowerame</a></cite></b></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div style="width:17%">
+            <div class="">
+                <div class="float-left">
+                    <div class="px-5 pt-4 pb-4">
+                        <h4>@products[0].category.Name Fiyatları ve Modelleri</h4>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="product-info mt-2 p-4">
+                        @foreach (var item in brands)
+                        {
+                            <label style="padding:.1em; display:block;" id="brandCheckBox" title="@item.name">
+                                <a href="#" class="filter" name="@item.name" id="brands">@item.name&nbsp;(@item.count)</a>
+                            </label>
+                        }
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="product-info mt-2 p-4 @*d-flex align-items-center justify-content-center*@">
+                        <h4 class="mb-2">Fiyat Aralıkları</h4>
+                        <div class="filter" name="1" id="prices" style="padding:.3em;margin-top:2em"><a href="#">1000₺ - 2000₺</a></div>
+                        <div class="filter" name="2" id="prices" style="padding:.3em;"><a href="#">2000₺ - 4000₺</a></div>
+                        <div class="filter" name="3" id="prices" style="padding:.3em;"><a href="#">4000₺ - 9000₺</a></div>
+                        <div class="filter" name="4" id="prices" style="padding:.3em;"><a href="#">9000₺ ve Üstü</a></div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="product-info mt-2 p-4 @*d-flex align-items-center justify-content-center*@">
+                        <h4 class="mb-2">Pil Gücü (mAh)</h4>
+                        <div class="filter" name="1" id="batterys" style="padding:.3em;margin-top:2em"><a href="#">900 - 2400</a></div>
+                        <div class="filter" name="2" id="batterys" style="padding:.3em;"><a href="#">2400 - 3900</a></div>
+                        <div class="filter" name="3" id="batterys" style="padding:.3em;"><a href="#">3900 - 5000</a></div>
+                        <div class="filter" name="4" id="batterys" style="padding:.3em;"><a href="#">5000 ve Üstü</a></div>
+                    </div>
+                </div>
+                @*<div class="col-12">
+                        <div class="product-info mt-2 p-4">
+                            <div class="row align-items-center"><h4>⭐</h4><span>&nbsp;4 ve 4+</span><span> &nbsp;&nbsp;Puanlı Ürünler</span></div>
+                            <div class="row align-items-center"><h4>⭐</h4><span>&nbsp;3 ve 3,9</span><span>&nbsp;&nbsp;Puanlı Ürünler</span></div>
+                            <div class="row align-items-center"><h4>⭐</h4><span>&nbsp;2 ve 2,9</span><span>&nbsp;&nbsp;Puanlı Ürünler</span></div>
+                            <div class="row align-items-center"><h4>⭐</h4><span>&nbsp;1 ve 1,9</span><span>&nbsp;&nbsp;Puanlı Ürünler</span></div>
+                            <div class="row align-items-center"><h4>⭐</h4><span>&nbsp;Puansız Ürünler</span></div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="product-info mt-2 p-4">
+                            <h4>Dahili Hafıza</h4>
+                            @foreach (var item in memorys)
+                            {
+                                <div>@item.i GB</div>
+                            }
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+        <div style="width:80%">
+            <div class="row px-4" id="filterList">
+
+            </div>
+            <div id="produtList" class="pt-3">
+
+            </div>
+            <div id="paged"></div>
+        </div>
+    </div>
+</div>
+

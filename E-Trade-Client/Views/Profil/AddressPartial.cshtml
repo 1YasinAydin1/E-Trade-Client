@@ -1,0 +1,97 @@
+﻿@using MVCexample.Models
+@{
+    var address = (List<AddressTablee>)ViewBag.addressTrue;
+}
+<div class="col-12">
+    <button type="button" id="addAddress" class="float-right btn btn-primary" data-toggle="modal" data-target="#modal-new-address">
+        Adres Ekle
+    </button>
+</div>
+<hr />
+@if (address != null)
+{
+    if (address.Count() != 0)
+    {
+        foreach (var item in address)
+        {
+            <div class="card col-5 m-3 p-0" title="@item.ID">
+                <h3 class="card-header" id="address-card-title-@item.ID">@item.Title</h3>
+                <div class="card-body">
+                    <div class="">
+                        <div class="card-subtitle ml-3 mb-2 text-muted" id="address-card-content-@item.ID">
+                            <h5>@item.address</h5>
+                            <h5>@item.Parish</h5>
+                            <h5>@item.District</h5>
+                            <h5>@item.City</h5>
+                        </div>
+                        <div class="col-12">
+                            <button type="button" name="@item.ID" id="modelButton" class="float-right btn btn-success" data-toggle="modal" data-target="#modal-@item.ID">
+                                Düzenle
+                            </button>
+                            <button type="button" name="@item.ID" class="deleteAddress float-right btn">
+                                <i class="far fa-trash-alt text-danger"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="modal-@item.ID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="exampleModalLabel">Adresinizi Düzenleyin</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="m-0 mx-2 p-0" style="font-size:.9em">Mahalle</p>
+                            <input class="form-control my-2" id="Parish-@item.ID" placeholder="Mahalle" type="text" value="@item.Parish">
+                            <p class="m-0 mx-2 p-0" style="font-size:.9em">İlçe</p>
+                            <input class="form-control my-2" id="District-@item.ID" placeholder="İlçe" type="text" value="@item.District">
+                            <p class="m-0 mx-2 p-0" style="font-size:.9em">Şehir</p>
+                            <input class="form-control my-2" id="City-@item.ID" placeholder="Şehir" type="text" value="@item.City">
+                            <p class="m-0 mx-2 p-0" style="font-size:.9em">Açık Adres</p>
+                            <input class="form-control my-2" id="address-@item.ID" placeholder="Açık Adres" type="text" value="@item.address">
+                            <p class="m-0 mx-2 p-0" style="font-size:.9em">Adres Başlığı</p>
+                            <input class="form-control my-2" id="Title-@item.ID" placeholder="Adres Başlığı" type="text" value="@item.Title">
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary btn-block address-submit-button" name="@item.ID" data-dismiss="modal">Kaydet</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }else
+    {
+        <h2 id="address-empty" class="p-2">Adres Bilginiz Bulunmamaktadır</h2>
+    }
+}
+<div class="modal fade" id="modal-new-address" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Adres Ekleyin</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="m-0 mx-2 p-0" style="font-size:.9em">Mahalle</p>
+                <input class="form-control my-2" id="Parish-n" placeholder="Mahalle" type="text">
+                <p class="m-0 mx-2 p-0" style="font-size:.9em">İlçe</p>
+                <input class="form-control my-2" id="District-n" placeholder="İlçe" type="text">
+                <p class="m-0 mx-2 p-0" style="font-size:.9em">Şehir</p>
+                <input class="form-control my-2" id="City-n" placeholder="Şehir" type="text">
+                <p class="m-0 mx-2 p-0" style="font-size:.9em">Açık Adres</p>
+                <input class="form-control my-2" id="address-n" placeholder="Açık Adres" type="text">
+                <p class="m-0 mx-2 p-0" style="font-size:.9em">Adres Başlığı</p>
+                <input class="form-control my-2" id="Title-n" placeholder="Adres Başlığı" type="text">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-block address-add-button" data-dismiss="modal">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>

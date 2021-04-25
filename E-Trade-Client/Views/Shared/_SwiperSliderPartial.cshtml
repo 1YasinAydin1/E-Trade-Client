@@ -1,0 +1,47 @@
+﻿@using MVCexample.Models
+@using MVCexample.Helper @model PagedData<Product>
+@*@using MVCexample.Models@model List<Product>*@
+    @{ 
+        string style = "";
+    }
+<div class="col-12 swiperCon mb-5">
+    @if (ViewBag.swiperMarginZero == null)
+    {
+        style = "margin-bottom:50px";
+    }else { style = "margin-bottom:20px"; }
+    <div class="swiper-containerPer" style=@style>
+        <div class="swiper-wrapper">
+            @foreach (var item in Model.Data)
+            {
+                <div class="swiper-slide">
+                    <div class="row mx-1" style="display:flex;align-items:center;justify-content:center">
+                        @if (item.Popular == true && ViewBag.swiperMarginZero == null)
+                        {
+                            <div class="col" style="border-bottom:1px solid #c8232c;"></div>
+                            <div class="col-5 text-center  headerTitle">Popüler Ürün</div>
+                            <div class="col" style="border-bottom:1px solid #c8232c;"></div>
+                        }
+                        else
+                        { <div class="col-12">&nbsp;</div>}
+                    </div>
+                    <a href="~/Desing/img/@item.Image">
+                        <div style="display:flex; align-items:center">
+                            <div class="w-100" style="bottom:0">
+                                <div style="width:100%;text-align:center;font-size:1.5em;">@item.Model</div>
+                                <div style="width:100%;text-align:center;font-size:1.5em;">@item.Brand</div>
+                                @if (item.Outlet == true)
+                                {<div style="width:100%;text-align:center;font-size:1.5em;">@item.OutletPrice ₺</div>}
+                                else
+                                {<div style="width:100%;text-align:center;font-size:1.5em;">@item.Price ₺</div>}
+                            </div>
+                        </div>
+                        <img src="~/Desing/img/@item.Image" style="width:50%;height:auto" />
+                    </a>
+                    @if (item.Outlet == true)
+                    {<div class="bg-warning rounded text-white text-center"><del>@item.Price ₺</del></div>}
+                </div>
+            }
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>

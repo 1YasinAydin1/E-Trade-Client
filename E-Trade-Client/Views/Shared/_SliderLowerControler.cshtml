@@ -1,0 +1,43 @@
+﻿@using MVCexample.Models
+@using MVCexample.Helper @model PagedData<Product>
+@*@using MVCexample.Models @model List<Product>*@
+<div class="container-fluid sliderLowerController">
+    <div class="row">
+        <div class="swiper-container gallery-top">
+            <div class="swiper-wrapper">
+                @foreach (var item in Model.Data)
+                {
+                    <div class="swiper-slide">
+                        <div class="row bg-white" style="width:100%;height:100%;">
+                            <div class="col-6 d-flex h-100 align-items-center justify-content-center">
+                                <img class="" src="~/Desing/img/@item.Image" style="height:90%" />
+                            </div>
+                            <div class="col-6 d-flex align-items-center">
+                                <div class="row">
+                                    <img src="~/Desing/img/samsung.png" style="width:60%" />
+                                    <div class="col-12 text-primary" style="font-size:5em">@item.Model</div>
+                                    @if (item.Outlet == true)
+                                    {<div class="col-12 text-primary" style="font-size:4em">@item.OutletPrice ₺</div>}
+                                    else
+                                    {<div class="col-12 text-primary" style="font-size:4em">@item.Price ₺</div>}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="swiper-container gallery-thumbs">
+            <div class="swiper-wrapper p-2">
+                @foreach (var item in Model.Data)
+                {
+                    <div class="swiper-slide" style="justify-content:center">
+                        <div class="row bg-white" style="position:relative;display:flex;align-items:center;justify-content:center; width:100%;height:100%;">
+                            <img class="" src="~/Desing/img/@item.Image" height="120" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

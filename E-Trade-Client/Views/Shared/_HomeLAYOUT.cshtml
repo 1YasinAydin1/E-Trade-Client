@@ -1,0 +1,554 @@
+﻿@using MVCexample.Models;
+@*@model MVCexample.Controllers.ProductCategoryViewModels*@
+@{
+    //var products = Model.products;
+    List<category> categories = (List<category>)Session["cMom"];
+    List<categoryLowerTitle> clt = (List<categoryLowerTitle>)Session["cLowerTitle"];
+    List<categoryLower> cl = (List<categoryLower>)Session["cLower"];
+    Layout = null;
+    string style = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Desing/css/login-style.css" rel="stylesheet" />
+    <link href="~/Desing/css/animate.css" rel="stylesheet" />
+    <link href="~/Desing/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Desing/css/swiper.css" rel="stylesheet" />
+        @RenderSection("styles", required: false)
+    <title>Index</title>
+</head>
+<body>
+    <script src="~/Desing/js/jquery-3.6.0.min.js"></script>
+    <script src="~/Desing/js/popper.js"></script>
+    <script src="~/Desing/js/bootstrap.js"></script>
+    <script src="~/Desing/js/fontawesome.js"></script>
+    <script src="~/Desing/js/swiper.js"></script>
+    <script src="~/Desing/js/sweetalertjs.js"></script>
+    <!-- Navbar Mega CSS-->
+    <div class="main-wrapper ">
+        <nav class="navbarnavbar">
+            <div class="brand-and-icon">
+                <a href="~/Home/Index" class="navbarnavbar-brand">
+                    <img src="~/Desing/img/logo.png" style="width:150px" />
+                </a>
+                <button type="button" class="navbarnavbar-toggler">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div class="navbarnavbar-collapse">
+                <ul class="navbarnavbar-nav">
+                    @for (int i = 0; i < categories.Count; i++)
+                    {
+                        <li class="hov">
+                            <a href="#" class="menu-link">
+                                @categories[i].Name
+                                <span class="drop-icon">
+                                    <i class="fas fa-chevron-down"></i>
+                                </span>
+                            </a>
+
+                            @if (categories[i].ID == 2 || categories[i].ID == 3) { style = "grid-template-columns: repeat(1,1fr);"; }
+                            <div class="sub-menu p-3" style="@style">
+                                <!-- item -->
+                                @if (categories[i].ID == categories.Count)
+                                {
+                                    <div class="sub-menu-item sub-menu-item-abmob">
+                                        <h2>Ev İçin Tüm Temel Cihazlar ve Araçlar</h2>
+                                        <button type="button" class="btn">Alışveris Yap</button>
+                                    </div>
+                                }
+                                <div class="sub-menu-item p-5">
+                                    @if (categories[i].ID == 2 || categories[i].ID == 3) { style = "columns:4"; } else { style = ""; }
+                                    <div class="sub-menu-container" style="@style">
+                                        @for (int j = 0; j < clt.Count; j++)
+                                        {
+                                            if (categories[i].ID == clt[j].categoryID)
+                                            {
+                                                <div class="sub-box">
+
+                                                    <b>@clt[j].Name</b>
+                                                    <hr class="mt-2 mb-0" />
+
+                                                    <ul class="mb-4">
+                                                        @for (int k = 0; k < cl.Count; k++)
+                                                        {
+                                                            if (clt[j].ID == cl[k].categoryLowerTitleID)
+                                                            {
+                                                                <li><a href="~/ProductList/Index/@cl[k].ID">@cl[k].Name</a></li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                @if (categories[i].ID == 1)
+                                {
+                                    <div class="sub-menu-item sub-menu-item-abmob">
+                                        <h2>Ev İçin Tüm Temel Cihazlar ve Araçlar</h2>
+                                        <button type="button" class="btn">Alışveris Yap</button>
+                                    </div>
+                                }
+                            </div>
+                        </li>
+                    }
+                    <li class="mx-5" style="height:40px;width:1px;background-color:#ddd">&nbsp;</li>
+                    @if (ViewBag.isLogin != null)
+                    {
+                        <li><a href="~/Profil/Index"><div class="d-flex align-items-center" style="font-size:1em"><i class="far mr-2 fa-user-circle"></i>@ViewBag.UserName</div></a></li>
+                        <li><a href="~/Basket/Index"><div class="d-flex align-items-center" style="font-size:1em"><i class="fas fa-shopping-cart"></i>Sepetim 
+                            @if (ViewBag.Basket != 0 && ViewBag.Basket != null)
+                            {
+                            	 <span style="font-size:1em">&nbsp;&nbsp;(@ViewBag.Basket)</span>
+                            }
+                            </div></a></li>
+                        <li><a href="~/Base/signOut"><div class="d-flex align-items-center" style="font-size:1em"><i class="fas fa-sign-out-alt"></i>Çıkış</div></a></li>
+                    }
+                    else
+                    {
+                        <li><a style="cursor:pointer" data-toggle="modal" data-target="#login"><div class="d-flex align-items-center" style="font-size:1em"><i class="far mr-2 fa-user-circle"></i>Giriş Yap</div></a></li>
+                        <li><a style="cursor:pointer" data-toggle="modal" data-target="#register"><div class="d-flex align-items-center" style="font-size:1em"><i class="fas mr-2 fa-user-circle"></i>Kayıt Ol</div></a></li>
+                        <li>
+                            <a href="~/Basket/Index">
+                                <div class="d-flex align-items-center" style="font-size:1em">
+                                    <i class="fas fa-shopping-cart"></i>Sepetim
+                                    @if (ViewBag.Basket != 0 && ViewBag.Basket != null) 
+                                    {
+                                       <span style="font-size:1em">&nbsp;&nbsp;(@ViewBag.Basket)</span>
+                                    }
+                                </div>
+                            </a>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    @RenderBody()
+
+    <section id="upper-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4 foocol pt-5">
+                    <h3>Konum</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, aliquam.</p>
+                </div>
+                <div class="col-12 col-md-4 foocol pt-5">
+                    <h3>Bizi Takip Edin</h3>
+                    <div class="social-div">
+                        <a href="#" class="btn-social"><i class="icon-social fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn-social"><i class="icon-social left-pad fab fa-google-plus-g"></i></a>
+                        <a href="#" class="btn-social"><i class="icon-social fab fa-twitter"></i></a>
+                        <a href="#" class="btn-social"><i class="icon-social fab fa-linkedin-in"></i></a>
+                        <a href="#" class="btn-social"><i class="icon-social fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 foocol pt-5">
+                    <h3>Freelancer</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, aliquam.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header m-1">
+                    <h5 class="modal-title " id="exampleModalLabel">Giriş Yap</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group pt-3">
+                        <input class="form-control my-2" id="login-mail" placeholder="Email" type="email" />
+                    </div>
+                    <div class="form-group pt-1">
+                        <input class="form-control my-2" id="login-password" placeholder="Şifre" type="password" />
+                    </div>
+                    <p style="font-size:.9em;cursor:pointer" class="mx-3 float-right text-danger" id="login-forgot-password-button">Şifremi Unuttum</p>
+                    <button type="submit" class="btn btn-block mt-4 btn-success mt-4" id="login-submit-button">Oturum Aç</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="login-forgot-password" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header m-1">
+                    <h5 class="modal-title " id="exampleModalLabel">Şifrenizi mi Unuttunuz?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group pt-3">
+                        <input class="form-control my-2" id="login-forgot-mail" placeholder="Email adresinizi girin" type="email" />
+                    </div>
+                    <button type="submit" class="btn btn-block mt-4 btn-success mt-4" id="login-submit-forgot-password-button">Gönder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white m-1">
+                    <h5 class="modal-title " id="exampleModalLabel">Kayıt Ol</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="text-white">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="register-timer">
+                        <div>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="form-group pt-3 confirmationCode">
+                        <input class="form-control my-2" id="register-confirmationCode" placeholder="Onay Kodu" type="text" />
+                    </div>
+                    <div class="form-group pt-3">
+                        <input class="form-control my-2" id="register-name" placeholder="Ad" type="text" />
+                    </div>
+                    <div class="form-group pt-1">
+                        <input class="form-control my-2" id="register-lastname" placeholder="Soyad" type="text" />
+                    </div>
+                    <div class="form-group pt-1">
+                        <input class="form-control my-2" id="register-username" placeholder="Kullanıcı Adı" type="text" />
+                    </div>
+                    <div class="form-group pt-1">
+                        <input class="form-control my-2" id="register-mail" placeholder="Mail" type="email" />
+                    </div>
+                    <div class="form-group pt-1">
+                        <input class="form-control my-2" id="register-password" placeholder="Şifre" type="password" />
+                    </div>
+                    <div class="form-group pt-1">
+                        <input class="form-control my-2" id="register-passwordrep" placeholder="Şifreyi Tekrarlayın" type="password" />
+                    </div>
+                    <button type="submit" class="btn btn-block mt-4 btn-success mt-4" id="register-mail-submit-button">Kayıt Ol</button>
+                    <button type="submit" class="btn btn-block mt-4 btn-success mt-4" id="register-submit-button">Onayla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <script>
+        var galleryThumbs = new Swiper('.gallery-thumbs', {
+            spaceBetween: 10,
+            slidesPerView: 4,
+            freeMode: true,
+            watchSlidesVisibility: true,
+            watchSlidesProgress: true,
+        });
+        var galleryTop = new Swiper('.gallery-top', {
+            spaceBetween: 10,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            thumbs: {
+                swiper: galleryThumbs
+            }
+        });
+        var swiper = new Swiper('.swiper-containerPer', {
+            slidesPerView: 4,
+            spaceBetween: 30,
+            autoplay: {
+                delay: 1500,
+                disableOnInteraction: false
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            }
+        });
+
+        $(function () {
+            // #genel
+            $('.register-timer').hide();
+            $('.confirmationCode').hide();
+            $('#register-submit-button').hide();
+            var x = true;
+            $('.menu-link').mouseenter(function () {
+                var This = $(this);
+                $('.sub-menu').removeClass('sub-menu-hover');
+                This.next().addClass('sub-menu-hover');
+                setTimeout(function () {
+                }, 1000);
+            });
+            $('.menu-link').mouseleave(function () {
+                var This = $(this);
+                setTimeout(function () {
+                    var s = $(This).next();
+                    $(This).next().mousemove(function () {
+                        debugger;
+                        x = true;
+                    });
+                    debugger;
+                    if (x == false) {
+                        $(This).next().removeClass('sub-menu-hover');
+                    }
+                }, 500);
+            });
+            $('.sub-menu').mouseleave(function () {
+                x = false;
+                $(this).removeClass('sub-menu-hover');
+            });
+
+            $('.navbarnavbar-toggler').click(function () {
+                $('.navbarnavbar-collapse').slideToggle(300);
+            });
+
+            $('#navbarDropdown').mousemove(function () { $('#dropdownnavbar').slideDown(); });
+            // #login-submit-button
+            $('#navbarDropdown').mouseleave(function () { $('#dropdownnavbar').slideUp(); });        
+            // #login-submit-button
+            $('#login-submit-button').click(function () {
+                debugger;
+                var mail = $('#login-mail').val();
+                var password = $('#login-password').val();
+                $.ajax({
+                    url: '@Url.Content("~/RegisterLogin/Login?loginMail=")' + mail + '&loginPassword=' + password,
+                    type: 'GET',
+                    datatype: 'int',
+                    success: function (data) {
+                        if (data == -1) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Hata Oluştu',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        } else if (data == 0) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Girdiğiniz bilgiler Yanlış',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        } else if (data == 1) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Giriş Yapıldı',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(function () { window.location.href = '@Url.Content("~/Basket/Index")'; }, 1500);
+                        } else if (data == 2) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Giriş Yapıldı',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(function () { window.location.href = '@Url.Content("~/Home/Index")'; }, 1500);
+                        }
+                    }
+                });
+            });
+            //#register-mail-submit-button
+            var confirmationCodeOrigin = "";
+            $('#register-mail-submit-button').click(function () {
+                var mail = $('#register-mail').val();
+                debugger;
+                $.ajax({
+                    url: '@Url.Content("~/RegisterLogin/MailSender?mail=")' + mail,
+                    type: 'GET',
+                    datatype: 'int',
+                    success: function (data) {
+                        debugger;
+                        if (data != "" && data!="false") {
+                            confirmationCodeOrigin = data;
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Mail adresinizi kontrol ediniz',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(function () {
+                                $('.register-timer').slideDown();
+                                $('.confirmationCode').slideDown();
+                                $('#register-mail-submit-button').slideUp();
+                                $('#register-submit-button').slideDown();
+                            }, 1500);
+
+                            var saniye = 61;
+                            var sayacYeri = $(".register-timer div span");
+
+                            $.sayimiBaslat = function () {
+                                if (saniye > 1) {
+                                    saniye--;
+                                    sayacYeri.text(saniye);
+                                } else {
+                                    $(".register-timer div span").text("Bitti");
+                                }
+                            }
+
+                            sayacYeri.text(saniye);
+                            setInterval("$.sayimiBaslat()", 1000);
+                        } else if (data == "false") {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Zaten hesabınız var. Oturum açın',
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        } else {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Mail adresi doğrulamanadı',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                    }
+                    }
+                });
+            });
+            //#register-submit-butston
+            $('#register-submit-button').click(function () {
+                var confirmationCode = $('#register-confirmationCode').val();
+                var name = $('#register-name').val();
+                var lastname = $('#register-lastname').val();
+                var username = $('#register-username').val();
+                var mail = $('#register-mail').val();
+                var password = $('#register-password').val();
+                var passwordrep = $('#register-passwordrep').val();
+                if (password != passwordrep) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Şifreler uyuşmuyor',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else if (password.length < 6 || passwordrep.length < 6) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Şifre 6 karakterden kısa olamaz',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else if (confirmationCode != confirmationCodeOrigin) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Onay kodu yanlış girildi',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else if ($(".register-timer div span").text()=="Bitti") {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Zaman Doldu. Baştan deneyin',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    $.ajax({
+                        url: '@Url.Content("~/RegisterLogin/Register?name=")' + name + '&lastname=' + lastname
+                        + '&username=' + username + '&mail=' + mail + '&password=' + password + '&passwordrep=' + passwordrep,
+                        type: 'GET',
+                        datatype: 'int',
+                        success: function (data) {
+                            debugger;
+                            if (data == -1) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: 'Hata Oluştu',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            } else if (data == 0) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: 'Şifreler uyuşmuyor',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            } else if (data == 1) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Oturum Oluşturuldu',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                setTimeout(function () { window.location.href = '@Url.Content("~/Basket/Index")'; }, 1500);
+                            } else if (data == 2) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Oturum Oluşturuldu',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                setTimeout(function () { window.location.href = '@Url.Content("~/Home/Index")'; }, 1500);
+                            }
+                        }
+                    });
+                }
+            });
+            $('#login-forgot-password-button').click(function () {
+                $("#login-forgot-password").modal();
+                $("#login").modal("hide");
+            });
+            $('#login-submit-forgot-password-button').click(function () {
+             
+                var mail = $('#login-forgot-mail').val();
+                $.ajax({
+                    url: '@Url.Content("~/RegisterLogin/ForgotMailSender?mail=")' + mail,
+                    type: 'GET',
+                    datatype: 'int',
+                    success: function (data) {
+                        if (data == 1) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Mail adresinizi kontrol edin',
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                            $("#login-forgot-password").modal("hide");
+                            $("#login").modal();
+                        } else {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Böyle bir hesap bulunamadı',
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        } 
+                    }
+                });
+            });
+
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

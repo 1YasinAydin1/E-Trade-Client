@@ -1,0 +1,21 @@
+﻿@using MVCexample.Models
+@using MVCexample.Helper @model PagedData<Product>
+@*@using MVCexample.Models; @model List<Product>*@
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_HomeLAYOUT.cshtml";
+}
+  <!-- Slider Lower Controler -->
+@Html.Partial("~/Views/Shared/_SliderLowerControler.cshtml", Model)
+
+<!-- Populer hr -->
+<div class="container-fluid px-5 pt-5">
+    <h2>Popüler Ürünler</h2><hr class="bg-dark" />
+</div>
+
+<div class="row mx-5 px-md-5 py-5">
+    @Html.Partial("~/Views/Shared/_ProductPartial.cshtml", Model)
+    <div class="my-4">&nbsp;</div>
+    @Html.Partial("~/Views/Shared/_SwiperSliderPartial.cshtml", Model)
+    @Html.Partial("~/Views/Shared/_ProductPartial.cshtml", Model)
+</div>

@@ -1,0 +1,196 @@
+﻿@using MVCexample.Models; @using MVCexample.Helper;@model List<Product>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_HomeLAYOUT.cshtml";
+    var address = (List<AddressTablee>)ViewBag.address;
+}
+
+@section scripts {
+    <script>
+
+        $(function () {
+
+            var totalprice = 0;
+            var Pricearray = new Array();
+            $('.basketNumber').change(function () {
+                var thisName = $(this).attr("name");
+                var price = parseInt($('#' + thisName).attr('title'));
+                var result = $(this).val() * price;
+                $('#' + thisName).text(result);
+                totalPrice();
+            });
+            totalPrice();
+            function totalPrice() {
+                var PriceArray = $('.totalPrice').text().split("₺");
+                totalprice = 0;
+                Pricearray.length = 0;
+                PriceArray.forEach(function (e) {
+                    if (e != "") {
+                        debugger;
+                        Pricearray.push(e);
+                        totalprice += parseInt(e);
+                    }
+                });
+                $('#totalPrice').text(totalprice + '₺');
+            }
+
+            $('.basketComplated').click(function () {
+                var This = $(this);
+                var addressID = 0;
+                debugger;
+                $(".address-radio-button").each(function () {
+                    debugger;
+                    if ($(this).is(":checked")) {
+                        debugger;
+                        addressID = $(this).attr("title");
+                    }
+                });
+                var isLogin = "@SessionInfo.isLogin";
+                debugger;
+                if (addressID==0 && isLogin!="False") {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'info',
+                        title: 'Lütfen adres seçiniz',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    $.ajax({
+                        url: '@Url.Content("~/Basket/isLogin?PriceArray=")' + Pricearray + '&total=' + totalprice + '&addressID=' + addressID,
+                        type: "GET",
+                        datatype: "bool",
+                        success: function (data) {
+                            debugger;
+                            if (data == 1) {
+                                debugger;
+                                $(This).text("Siparişiniz Hazırlanıyor");
+                                $(This).css("background-color", "#e6e600");
+                            } else {
+                                debugger;
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'info',
+                                    title: 'Siparişi tamamlamak için oturum açınız',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                setTimeout(function () { $("#login").modal(); }, 1500);
+                            }
+                        }
+                    });
+                }
+            });
+
+        });
+    </script>
+}
+
+<div class="container" style="min-height:700px">
+    <div class="row">
+        @if (Model.Count != 0)
+        {
+            <div class="col-12 mt-5 mb-4">
+                <h1 style="font-size:2em">Sepetteki Ürünleriniz</h1><hr style="background-color:#ccc" />
+            </div>
+            <div class="col-12"><h5>Toplam @Model.Count Ürün</h5></div>
+            <div class="col-9 ">
+                @foreach (var item in Model)
+                {
+                    <div class="mt-3 " style="border-radius:20px;border:1px solid #232323">
+                        <div class="row d-flex align-items-center">
+                            <img src="~/Desing/img/@item.Image" style="width:80px;margin-left:30px" />
+                            <div class="col-10 mt-2 pt-2">
+                                <h3 class="mr-5 float-left">@item.Brand</h3>
+                                <div class="float-left mr-5">
+                                    <div class="row mt-2">
+                                        <h1 class="fo">@item.Model</h1>&nbsp;&nbsp;
+                                        <h1 class="fo">@item.memory GB</h1>&nbsp;&nbsp;
+                                        <h1 class="fo">@item.RAM GB RAM</h1>&nbsp;&nbsp;
+                                        <h1 class="fo">@item.screenSize Inc</h1>&nbsp;&nbsp;
+                                        <h1 class="fo">@ViewBag.cLowerame</h1>
+                                    </div>
+                                </div>
+                                <input class="basketNumber float-left mr-4  mt-1" name="@item.ID" type="number" min="1" max="9" step="1" value="1">
+                                @if (item.Outlet == true)
+                                {
+                                    <h5 class="float-left mr-4 mt-2 fo" style="font-size:1.1em"><del>@item.Price₺</del></h5>
+                                    <h3 class="totalPrice"><span style="font-size:1.5em" id="@item.ID" title="@item.OutletPrice">@item.OutletPrice</span>₺</h3>
+                                }
+                                else
+                                {
+                                    <h3 class="totalPrice "><span style="font-size:1em;" class="ml-5" id="@item.ID" title="@item.Price">@item.Price</span>₺</h3>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-3 h-25 basketInfo text-center p-0">
+                <div class="bg-white h-100" style="margin:0 -10px">
+                    <div class="p-3 text-white basketComplated">Siparişi Tamamla</div>
+                    <div class="d-flex align-items-center w-100 h-75">
+                        <div class="w-100 py-5 ">
+                            <div><h2 style="color:#383d3d">Toplam Fiyat </h2></div>
+                            <div><h1 id="totalPrice"></h1></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9 mt-5">
+
+                @if (address != null)
+                {
+                    if (address.Count() != 0)
+                    {
+                        <h4>Siparişiniz hangi adrese gönderilsin?</h4>
+                        <hr />
+                        <div class="row">
+
+                            @foreach (var item in address)
+                            {
+                                <div class="card col-5 m-3 p-0">
+                                    <div class="card-header ">
+                                        <h3 id="address-card-title-@item.ID" class="float-left">@item.Title</h3>
+                                        <input type="radio" title="@item.ID" id="address-radio-@item.ID" name="address-radio-button" class="address-radio-button" />
+                                        <label for="address-radio-@item.ID" style="position:absolute;right:10px"><span><i class="fas fa-check-circle text-white" style="font-size:45px"></i></span></label>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-subtitle ml-3 mb-2 text-muted" id="address-card-content-@item.ID">
+                                            <h5>@item.address</h5>
+                                            <h5>@item.Parish</h5>
+                                            <h5>@item.District</h5>
+                                            <h5>@item.City</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <div> <h4>Adres kaydınız bulunmamaktadır</h4> </div>
+                            <div><p>Profil sayfanıza giderek oluşturunuz</p></div>
+                            <div><a href="~/Profil/Index" class="btn btn-primary">Oluştur</a></div>
+                        </div>
+                    }
+                }
+               
+            </div>
+        }
+        else
+        {
+            <div class="col-12 mt-5 p-5 d-flex align-items-center" style="background-color:#4a9696;border-radius:2%">
+                <img class="my-5" src="~/Desing/img/emptyBasket.jpg" style="width:35%;float:left" />
+                <div>
+                    <h1 style="font-size:4em;color:white;text-align:center">Sepettinizde Ürün Bulanmamaktadır.</h1>
+                    <a href="~/Home/Index" style="margin-left:90px;font-size:1.5em" class="text-white btn mt-4 p-3 btn-success col-9">
+                        Alışverişe Başla
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

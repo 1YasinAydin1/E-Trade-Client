@@ -1,0 +1,331 @@
+﻿@using MVCexample.Models; @model registerTable
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_HomeLAYOUT.cshtml";
+
+    var nameIcon = Convert.ToChar(Model.name.Substring(0, 1));
+    var lastnameIcon = Convert.ToChar(Model.lastname.Substring(0, 1));
+}
+
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        $(function () {
+            //genel
+            var onStar;
+            var pID;
+            var basketContentID;
+
+            $('#stars li').on('mouseover', function () {
+                var onStar = parseInt($(this).data('value'), 10);
+                $(this).parent().children('li.star').each(function (e) {
+                    if (e < onStar) {
+                        $(this).addClass('hover');
+                    }
+                    else {
+                        $(this).removeClass('hover');
+                    }
+                });
+
+            }).on('mouseout', function () {
+                $(this).parent().children('li.star').each(function (e) {
+                    $(this).removeClass('hover');
+                });
+            });
+
+            $('#stars li').on('click', function () {
+                onStar = parseInt($(this).data('value'), 10);
+                var stars = $(this).parent().children('li.star');
+                for (i = 0; i < stars.length; i++) {
+                    $(stars[i]).removeClass('selected');
+                }
+                for (i = 0; i < onStar; i++) {
+                    $(stars[i]).addClass('selected');
+                }
+            });
+
+            $('#modelButton').click(function () {
+                debugger;
+                pID = $(this).attr("name"); basketContentID = $(this).attr("title");
+            });
+
+            $('.commentButton').click(function () {
+                var nameID = $(this).attr("name");
+                var comment = $('#commentTextarea-' + nameID).val();
+                debugger;
+                $.ajax({
+                    url: '@Url.Content("~/Profil/AddComment?star=")' + onStar + '&comment=' + comment + '&pID=' + pID + '&basketContentID=' + basketContentID,
+                    type: 'GET',
+                    datatype: 'int',
+                    success: function (data) {
+                        debugger;
+                        if (data == 1) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Yorum Yapıldı',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(function () {
+                                window.location.href = '@Url.Content("~/Profil/Index")'
+                            }, 1500);
+                        } else {
+                            alert("Yorum Yapıldı");
+                        }
+                    }
+                });
+            });
+
+            $('.show-hide').hide();
+            $('#0').show();
+            $('.list-group-item').click(function () {
+                debugger;
+                var id = $(this).attr('name');
+                $('.list-group-item').css("background-color", "white");
+                $('.list-group-item').css("color", "#343434");
+                $(this).css("background-color", "#faf3f3");
+                $(this).css("color", "#f00");
+
+                if ($('#' + id + ':visible').length != 1) {
+                    $('.show-hide').slideUp();
+                    $('#' + id).slideDown();
+                }
+
+            });
+            //#profile-submit-button
+            $(document).on('click', '#profile-submit-button', function () {
+                $.ajax({
+                    url: '@Url.Content("~/Profil/ProfileUpdate?name=")' + $('#profileName').val() + '&lastName=' + $('#profileLastName').val() + '&username=' + $('#profileUserName').val() + '&mail=' + $('#profileMail').val(),
+                    type: 'GET',
+                    datatype: 'int',
+                    success: function (data) {
+                        debugger;
+                        if (data == 1) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Bilgiler Güncellendi',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+
+                        } else {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Hata Oluştu',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    }
+                });
+            });
+            //#profile-password-submit-button
+                $(document).on('click', '#profile-password-submit-button', function () {
+                var newPassword = $('#password-new').val();
+                var newRepeatPassword = $('#password-new-repeat').val();
+                debugger;
+                if (newPassword != newRepeatPassword) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Şifreler uyuşmuyor',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+                } else if (newPassword.length < 6 || newRepeatPassword.length < 6) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Şifre 6 karakterden kısa olamaz',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    $.ajax({
+                        url: '@Url.Content("~/Profil/ProfilePasswordUpdate?currentPassword=")' + $('#password-current').val() + '&newPassword=' + $('#password-new').val(),
+                        type: 'GET',
+                        datatype: 'int',
+                        success: function (data) {
+                            debugger;
+                            if (data == 1) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Bilgiler Güncellendi',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                $('#password-current').val("");
+                                $('#password-new').val("");
+                                $('#password-new-repeat').val("");
+                            } else {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: 'Hata Oluştu',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+            //.address-submit-button
+             $(document).on('click', '.address-submit-button', function () {
+                var nameID = $(this).attr("name");
+
+                $.ajax({
+                    url: '@Url.Content("~/Profil/AddressUpdate?Parish=")' + $('#Parish-' + nameID).val() + '&District=' + $('#District-' + nameID).val() + '&City=' + $('#City-' + nameID).val() + '&address=' + $('#address-' + nameID).val() + '&Title=' + $('#Title-' + nameID).val() + '&ID=' + nameID,
+                    type: 'GET',
+                    datatype: 'int',
+                    success: function (data) {
+                        debugger;
+                        if (data == 1) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Adres Güncellendi',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            $('#address-card-title-' + nameID).text(Title);
+                            $('#address-card-content-' + nameID).html("\
+                              <h5>" + address + "</h5>\
+                              <h5>" + Parish + "</h5>\
+                              <h5>" + District + "</h5>\
+                              <h5>" + City + "</h5>");
+
+                        } else {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Hata Oluştu',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    }
+                });
+            });
+            //.address-add-button
+             $(document).on('click', '.address-add-button', function () {
+                $.ajax({
+                    url: '@Url.Content("~/Profil/AddressAdd?Parish=")' + $('#Parish-n').val() + '&District=' + $('#District-n').val() + '&City=' + $('#City-n').val() + '&address=' + $('#address-n').val() + '&Title=' + $('#Title-n').val(),
+                    type: 'GET',
+                    datatype: 'int',
+                    success: function (data) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Adres Eklendi',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        $('#address-empty').hide();
+                        $('\
+                     <div class="card col-5 m-3 p-0"  title="' + data + '">\
+                         <h3 class="card-header" id="address-card-title-' + data + '">' + $('#Title-n').val() + '</h3>\
+                        <div class="card-body">\
+                        <div class="">\
+                         <div class="card-subtitle ml-3 mb-2 text-muted" id="address-card-content-' + data + '">\
+                             <h5>' + $('#address-n').val() + '</h5>\
+                             <h5>' + $('#Parish-n').val() + '  </h5>\
+                             <h5>' + $('#District-n').val() + '</h5>\
+                             <h5>' + $('#City-n').val() + '</h5>\
+                         </div>\
+                         <div class="col-12">\
+                             <button type="button" name="' + data + '" id="modelButton" class="float-right btn btn-success" data-toggle="modal" data-target="#modal-' + data + '">\
+                                 Düzenle\
+                             </button>\
+                        <button type="button" name="' + data + '" class="deleteAddress float-right btn" >\
+                        <i class="far fa-trash-alt text-danger"></i>\
+                            </button>\
+                         </div>\
+                        </div>\
+                       </div>\
+                     </div>').appendTo(".address-ajax-show");
+                    }
+                });
+            });
+            //#deleteAddress
+                $(document).on('click', '.deleteAddress', function () {
+                var This = $(this);
+                var nameID = $(this).attr("name");
+                $.ajax({
+                    url: '@Url.Content("~/Profil/AddressDelete?ID=")' + nameID,
+                    type: 'GET',
+                    datatype: 'int',
+                    success: function (data) {
+                        debugger;
+                        if (data == 1) {
+                            $('#address-empty').show();
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Adres Silindi',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            $('.card').each(function () {
+                                var title = $(this).attr("title");
+                                if (title==nameID) {
+                                    $(this).hide();
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Hata oluştu',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    }
+                });
+            });
+    
+        });
+    </script>
+}
+<div class="container" style="min-height:700px">
+    <div class="row">
+        <div class="col-12 mt-5">
+            <div class="row px-4" style="position:relative">
+                <h1 style="font-size:2em;">Hesabım</h1>
+                <div style="font-size:2em;position:absolute;right:70px" class="row">
+                    <div class="usernameIcon">@nameIcon @lastnameIcon</div>
+                    <div class="mt-2 mx-3" style="color:#343434;"><h2>@Model.username</h2></div>
+                </div>
+            </div>
+            <hr style="background-color:#ccc" />
+        </div>
+        <div class="col-3 my-3">
+            <div class="list-group list-group-flush profile-menu">
+                <div class="list-group-item" name="0">Siparişlerim</div>
+                <div class="list-group-item" name="1">Değerlendirmelerim</div>
+                <div class="list-group-item" name="2"><a><span>Kullanıcı Bilgilerim</span></a></div>
+                <div class="list-group-item" name="3"><a><span>Adred Bilgilerim</span></a></div>
+            </div>
+        </div>
+        <div class="col-9 my-3">
+            <div class="show-hide" id="0">
+                @Html.Partial("~/Views/Profil/OrderPartial.cshtml")
+            </div>
+            <div class="show-hide" id="1">
+                @Html.Partial("~/Views/Profil/CommentPartial.cshtml")
+            </div>
+            <div class="show-hide" id="2">
+                @Html.Partial("~/Views/Profil/ProfilPartial.cshtml")
+            </div>
+            <div class="show-hide row address-ajax-show" id="3">
+                @Html.Partial("~/Views/Profil/AddressPartial.cshtml")
+            </div>
+        </div>
+    </div>
+</div>
