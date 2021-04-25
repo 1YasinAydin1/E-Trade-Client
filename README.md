@@ -1,2 +1,5 @@
-# E-Trade-Client
-E-Trade | Client
+![etradeClient1](https://user-images.githubusercontent.com/60145249/116010421-82017100-a627-11eb-988e-63e6eba7875a.jpg)
+![etradeClient2](https://user-images.githubusercontent.com/60145249/116010424-83329e00-a627-11eb-83a6-de0a3481532f.jpg)
+![etradeClient3](https://user-images.githubusercontent.com/60145249/116010425-8463cb00-a627-11eb-833a-760fa501aaac.jpg)
+![etradeClient4](https://user-images.githubusercontent.com/60145249/116010426-84fc6180-a627-11eb-9317-96269c88b8f7.jpg)
+![etradeClient5](https://user-images.githubusercontent.com/60145249/116010428-84fc6180-a627-11eb-9a8f-8b483aa1355f.jpg)
